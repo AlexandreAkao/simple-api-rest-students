@@ -2,7 +2,7 @@ import User from '../models/User';
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll();
+    const users = await User.findAll({ attributes: ['id', 'name', 'email'] });
 
     return res.json(users);
   }
@@ -11,7 +11,7 @@ class UserController {
     const { id } = req.params;
     if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
 
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, { attributes: ['id', 'name', 'email'] });
     if (!user) return res.status(404).json({ errors: ['User not found'] });
 
     return res.json(user);
@@ -24,8 +24,7 @@ class UserController {
   }
 
   async update(req, res) {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
+    const { id } = req.user;
 
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ errors: ['User not found'] });
@@ -36,8 +35,7 @@ class UserController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
+    const { id } = req.user;
 
     const user = await User.findByPk(id);
     if (!user) return res.status(404).json({ errors: ['User not found'] });
