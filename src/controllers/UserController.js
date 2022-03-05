@@ -1,17 +1,50 @@
 import User from '../models/User';
 
 class UserController {
-  async store(req, res) {
-    try {
-      const newUser = await User.create(req.body);
+  async index(req, res) {
+    const users = await User.findAll();
 
-      return res.json(newUser);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        errors: error.errors.map((validationError) => validationError.message),
-      });
-    }
+    return res.json(users);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ errors: ['User not found'] });
+
+    return res.json(user);
+  }
+
+  async store(req, res) {
+    const newUser = await User.create(req.body);
+
+    return res.status(201).json(newUser);
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ errors: ['User not found'] });
+
+    const userUpdated = await user.update(req.body);
+
+    return res.json(userUpdated);
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ errors: ['Id should be passed'] });
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ errors: ['User not found'] });
+
+    await user.destroy();
+
+    return res.json(user);
   }
 }
 
