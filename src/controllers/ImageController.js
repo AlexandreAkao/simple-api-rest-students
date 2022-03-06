@@ -11,12 +11,18 @@ class ImageController {
     return upload(req, res, async (err) => {
       if (err) return res.status(400).json({ errors: [err.code] });
 
-      const { originalname, filename } = req.file;
-      const { student_id } = req.body;
+      try {
+        const { originalname, filename } = req.file;
+        const { student_id } = req.body;
 
-      const newImage = await Image.create({ originalname, filename, student_id });
+        const newImage = await Image.create({ originalname, filename, student_id });
 
-      return res.status(200).json(newImage);
+        return res.status(201).json(newImage);
+      } catch (error) {
+        return res.status(400).json({
+          erros: ['Student not found'],
+        });
+      }
     });
   }
 
