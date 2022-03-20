@@ -12,7 +12,7 @@ A basic project, using Express and Sequelize. As part of [Luiz Otávio Miranda's
 
 - Encrypted password
 - CRUD of Students
-- CRUD USER
+- CRUD of User
 - Image upload
 - Login with JWT
 
