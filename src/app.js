@@ -1,5 +1,7 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
+import helmet from 'helmet';
 
 import routes from './routes';
 
@@ -13,6 +15,8 @@ class App {
   }
 
   middlewares() {
+    this.app.use(cors());
+    this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use(
