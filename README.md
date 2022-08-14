@@ -27,6 +27,9 @@ $ git clone https://github.com/AlexandreAkao/simple-api-rest-students.git
 # Go into the repository
 $ cd simple-api-rest-students
 
+# Create docker container
+docker run --restart always -d --name bdmariadb1 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=YOUR_PASSWORD mariadb
+    
 # Install dependencies
 $ npm install
 
